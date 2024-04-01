@@ -22,10 +22,25 @@ export const booksApi = createApi({
       }),
       providesTags: tagTypes,
     }),
+    removeBook: builder.mutation<void, TBook["id"]>({
+      query: (id) => ({
+        url: `/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: tagTypes,
+    }),
+    addBook: builder.mutation<void, Omit<TBook, "id">>({
+      query: (book) => ({
+        url: `/`,
+        method: "POST",
+        body: book,
+      }),
+      invalidatesTags: tagTypes,
+    }),
   }),
 });
 
-export const { useAllBooksQuery } = booksApi;
+export const { useAllBooksQuery, useRemoveBookMutation, useAddBookMutation } = booksApi;
 
 //import CryptoJS from "crypto-js";
 // const hash = CryptoJS.MD5(

@@ -1,5 +1,5 @@
 import { Box, Button, Container, Typography } from "@mui/material";
-import { useAllBooksQuery } from "@/api";
+import { useAddBookMutation, useAllBooksQuery } from "@/api";
 import {
   BookListHeader,
   BookListCount,
@@ -8,9 +8,12 @@ import {
 } from "./styled";
 import BookCard from "../BookCard";
 import { PlusIcon } from "../icons";
+import generateRandomBook from "@/api/generateRandomBook";
 
 export default function BookList() {
   const { data, isLoading, isError } = useAllBooksQuery();
+  const [addBook, { isLoading: addLoading, isError: addError }] = useAddBookMutation();
+
   const bookCount = data?.length;
 
   if (isError) return <h1>Not Found</h1>;
@@ -23,8 +26,14 @@ export default function BookList() {
           </BookListCount>
           <BookListSubtitle>Your books today</BookListSubtitle>
         </Box>
-        <Button startIcon={<PlusIcon />} variant="contained">
+        <Button
+          startIcon={<PlusIcon />}
+          onClick={() => addBook(generateRandomBook())}
+          variant="contained"
+        >
           Create a book
+          {addLoading && "Loading"}
+          {addError && "Error"}
         </Button>
       </BookListHeader>
       <BookListContent>

@@ -1,4 +1,5 @@
 import { Box, styled } from "@mui/material";
+import { useRemoveBookMutation } from "@/api";
 import { CardTitle, STypography, DeleteBook, EditBook } from "./styled";
 import delIcon from "../../assets/del.svg";
 import editIcon from "../../assets/edit.svg";
@@ -42,10 +43,24 @@ interface IBookCard {
 }
 
 export default function BookCard({ book }: IBookCard) {
-  const { title, cover, pages, published, isbn, author } = book;
+  const [removeBook, { isLoading: removeLoading, isError: removeError }] =
+    useRemoveBookMutation();
+
+  const { title, cover, pages, published, isbn, author, id } = book;
+
+  const handleRemoveBook = async () => {
+    try {
+      await removeBook(id);
+      //task
+    } catch (error) {
+      //task
+    }
+  };
 
   return (
     <CardWrapper>
+      {removeLoading && <h1>Loading...</h1>}
+      {removeError && <h1>Error... message</h1>}
       <CardTitle gutterBottom>{title}</CardTitle>
       <STypography>Cover: {cover}</STypography>
       <STypography>Pages: {pages}</STypography>
@@ -57,7 +72,7 @@ export default function BookCard({ book }: IBookCard) {
         </STypography>
       </Box>
       <CardActions className="card-actions">
-        <DeleteBook>
+        <DeleteBook onClick={handleRemoveBook}>
           <img src={delIcon} alt="delete" />
         </DeleteBook>
         <EditBook>
