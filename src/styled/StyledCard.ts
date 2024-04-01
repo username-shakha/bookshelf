@@ -1,16 +1,16 @@
-import { Card, styled } from "@mui/material";
+// import { Card, styled } from "@mui/material";
 
-export const StyledCard = styled(Card)`
-  .MuiCard {
-    box-shadow: 0px 4px 32px 0px rgba(51, 51, 51, 0.04);
-  }
-  .MuiCardContent-root {
-    border-radius: 12px;
-    /* background-color: red; */
-  }
-`;
+// export const StyledCard = styled(Card)`
+//   .MuiCard {
+//     box-shadow: 0px 4px 32px 0px rgba(51, 51, 51, 0.04);
+//   }
+//   .MuiCardContent-root {
+//     border-radius: 12px;
+//     /* background-color: red; */
+//   }
+// `;
 
-//form card
+//Auth Form card
 // padding: 48px 28px 48px 28px;
 // border-radius: 12px;
 // padding: 32px;
@@ -27,19 +27,17 @@ export const StyledCard = styled(Card)`
 // /* Foundation /White/white-50 */
 // background: rgb(254, 254, 254);
 
-// login register
+// AuthForm wrapper card
 // padding: 48px 28px 48px 28px;
 
-//footer card
+//AuthForm footer text
 // font-family: Mulish;
 // font-size: 14px;
 // font-weight: 300;
 // line-height: 120%;
 // letter-spacing: 0%;
-
-//color
+//text color
 // Already signed up?
 // rgb(36, 39, 44)
-
 //Go to sign up
 // rgb(27, 40, 188)

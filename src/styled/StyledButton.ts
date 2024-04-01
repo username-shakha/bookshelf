@@ -1,5 +1,6 @@
 // import { Button, styled } from "@mui/material";
 
+// .MuiButtonBase-root: {}
 // export const StyledButton = styled(Button)`
 //   text-transform: capitalize;
 //   font-family: "Mulish", sans-serif;
@@ -11,7 +12,6 @@
 //   border-radius: 4px;
 // `;
 
-// MuiButtonBase-root-MuiButton-root
 //contained {
 //    color: rgb(254, 254, 254);
 //    background: rgb(98, 0, 238);
