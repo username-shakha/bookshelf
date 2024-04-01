@@ -2,7 +2,7 @@ import { Box, styled } from "@mui/material";
 import { useRemoveBookMutation } from "@/api";
 import {
   CardTitle,
-  STypography,
+  Info,
   DeleteBook,
   EditBook,
   BookStatus,
@@ -64,25 +64,27 @@ export default function BookCard({ book }: IBookCard) {
     }
   };
 
+  const colors = status === 1 ? "#FFEC43" : status === 3 ? "#00FF00" : "#FF0000";
+  const statusVariant = status === 3 ? "Finished" : status === 1 ? "Reading" : "New";
   return (
     <CardWrapper>
       {removeLoading && <h1>Loading...</h1>}
       {removeError && <h1>Error... message</h1>}
       <CardTitle gutterBottom>{title}</CardTitle>
-      <STypography>Cover: {cover}</STypography>
-      <STypography>Pages: {pages}</STypography>
-      <STypography>Published: {published}</STypography>
-      <STypography>Isbn: {isbn}</STypography>
+      <Info>Cover: {cover}</Info>
+      <Info>Pages: {pages}</Info>
+      <Info>Published: {published}</Info>
+      <Info>Isbn: {isbn}</Info>
       <BookCardFooter>
-        <STypography>
+        <Info>
           {author} / {published}
-        </STypography>
+        </Info>
         <BookStatus
           sx={{
-            background: status === 1 ? "#FFEC43" : status === 3 ? "#00FF00" : "#FF0000",
+            background: colors,
           }}
         >
-          {status === 3 ? "Finished" : status === 1 ? "Reading" : "New"}
+          {statusVariant}
         </BookStatus>
       </BookCardFooter>
       <CardActions className="card-actions">

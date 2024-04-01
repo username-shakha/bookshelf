@@ -1,6 +1,6 @@
 import { Box, styled, Typography } from "@mui/material";
 
-export const STypography = styled(Typography)`
+export const Info = styled(Typography)`
   color: rgb(51, 51, 51);
   font-family: Mulish, sans-serif;
   font-size: 14px;
