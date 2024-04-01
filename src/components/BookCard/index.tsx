@@ -70,7 +70,7 @@ export default function BookCard({ book }: IBookCard) {
   const statusVariant = status === 3 ? "Finished" : status === 1 ? "Reading" : "New";
   return (
     <CardWrapper>
-      {!removeLoading && (
+      {removeLoading && (
         <Typography
           variant="h5"
           color="error"
