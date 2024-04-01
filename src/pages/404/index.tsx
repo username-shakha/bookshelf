@@ -19,10 +19,10 @@ export default function NotFoundPage() {
     <Backdrop>
       <img src={notFoundImg} alt="not found page" />
       <Actions>
-        <Button onClick={() => navigate("/root")} variant="contained">
+        <Button onClick={() => navigate("/")} variant="contained">
           Go Home Page
         </Button>
-        <Button onClick={() => navigate("/root")} variant="outlined">
+        <Button onClick={() => navigate("/")} variant="outlined">
           Reload Page
         </Button>
       </Actions>
