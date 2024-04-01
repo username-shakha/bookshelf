@@ -5,8 +5,9 @@ const generateRandomBook = (): Omit<TBook, "id"> => {
   const title = "Random Book Title";
   const cover = "http://url.to.book.cover";
   const author = "Random Author";
-  const published = Math.floor(Math.random() * 1000) + 1000; // Год от 1000 до 2000
-  const pages = Math.floor(Math.random() * 500) + 100; // Количество страниц от 100 до 600
+  const published = Math.floor(Math.random() * 1000) + 1000;
+  const pages = Math.floor(Math.random() * 500) + 100;
+  const status = Math.floor(Math.random() * 4);
 
   return {
     isbn,
@@ -15,6 +16,7 @@ const generateRandomBook = (): Omit<TBook, "id"> => {
     author,
     published,
     pages,
+    status,
   };
 };
 

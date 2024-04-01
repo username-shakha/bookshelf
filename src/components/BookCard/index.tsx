@@ -1,6 +1,13 @@
 import { Box, styled } from "@mui/material";
 import { useRemoveBookMutation } from "@/api";
-import { CardTitle, STypography, DeleteBook, EditBook } from "./styled";
+import {
+  CardTitle,
+  STypography,
+  DeleteBook,
+  EditBook,
+  BookStatus,
+  BookCardFooter,
+} from "./styled";
 import delIcon from "../../assets/del.svg";
 import editIcon from "../../assets/edit.svg";
 import { TBook } from "@/types";
@@ -46,7 +53,7 @@ export default function BookCard({ book }: IBookCard) {
   const [removeBook, { isLoading: removeLoading, isError: removeError }] =
     useRemoveBookMutation();
 
-  const { title, cover, pages, published, isbn, author, id } = book;
+  const { title, cover, pages, published, isbn, author, id, status } = book;
 
   const handleRemoveBook = async () => {
     try {
@@ -66,11 +73,18 @@ export default function BookCard({ book }: IBookCard) {
       <STypography>Pages: {pages}</STypography>
       <STypography>Published: {published}</STypography>
       <STypography>Isbn: {isbn}</STypography>
-      <Box>
+      <BookCardFooter>
         <STypography>
           {author} / {published}
         </STypography>
-      </Box>
+        <BookStatus
+          sx={{
+            background: status === 1 ? "#FFEC43" : status === 3 ? "#00FF00" : "#FF0000",
+          }}
+        >
+          {status === 3 ? "Finished" : status === 1 ? "Reading" : "New"}
+        </BookStatus>
+      </BookCardFooter>
       <CardActions className="card-actions">
         <DeleteBook onClick={handleRemoveBook}>
           <img src={delIcon} alt="delete" />

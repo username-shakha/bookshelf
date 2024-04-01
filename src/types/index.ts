@@ -15,6 +15,7 @@ export type TBook = {
   author: string;
   published: number;
   pages: number;
+  status: number;
 };
 
 // export type TBooksData = {
