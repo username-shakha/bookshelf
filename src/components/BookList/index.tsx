@@ -7,7 +7,7 @@ import {
   BookListContent,
 } from "./styled";
 import BookCard from "../BookCard";
-import { PlusIcon } from "../icons";
+
 import generateRandomBook from "@/api/generateRandomBook";
 
 export default function BookList() {
@@ -26,11 +26,7 @@ export default function BookList() {
           </BookListCount>
           <BookListSubtitle>Your books today</BookListSubtitle>
         </Box>
-        <Button
-          startIcon={<PlusIcon />}
-          onClick={() => addBook(generateRandomBook())}
-          variant="contained"
-        >
+        <Button onClick={() => addBook(generateRandomBook())} variant="contained">
           Create a book
           {addLoading && "Loading"}
           {addError && "Error"}
