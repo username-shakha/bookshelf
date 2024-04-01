@@ -4,10 +4,6 @@ import delIcon from "../../assets/del.svg";
 import editIcon from "../../assets/edit.svg";
 import { TBook } from "@/types";
 
-interface IBookCard {
-  book: TBook;
-}
-
 const CardWrapper = styled(Box)`
   position: relative;
   width: 397px;
@@ -40,6 +36,10 @@ const CardActions = styled(Box)`
   gap: 2px;
   z-index: 1;
 `;
+
+interface IBookCard {
+  book: TBook;
+}
 
 export default function BookCard({ book }: IBookCard) {
   const { title, cover, pages, published, isbn, author } = book;
