@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { Button, Stack } from "@mui/material";
 import { FormInput } from "@/components/Form/FormInput";
-
+const margins = { ml: 0.5, mb: 0.7, color: "#242424" };
 export default function LoginForm() {
   const { control } = useForm<{
     name: string;
@@ -15,12 +15,17 @@ export default function LoginForm() {
           {...{ control, name: "name" }}
           variant="outlined"
           defaultValue={"john doe"}
+          mylabel="User Name"
+          labelprops={{ sx: { ...margins } }}
           required
         />
+
         <FormInput
           {...{ control, name: "password" }}
           variant="outlined"
           placeholder="Enter your password"
+          mylabel="Password"
+          labelprops={{ sx: { ...margins } }}
           required
         />
         <Button type="submit" variant="contained" fullWidth>

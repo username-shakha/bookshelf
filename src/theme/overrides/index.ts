@@ -8,10 +8,18 @@ const components: Components<Omit<Theme, "components">> = {
         fontSize: "16px",
         fontWeight: "400",
         borderRadius: "6px",
-        border: "1px solid rgb(235, 235, 235)",
+        border: "1px solid rgb(235, 235, 235) !important",
         color: "rgb(21, 21, 21)",
         backgroundColor: "rgb(254, 254, 254)",
         boxShadow: "0px 4px 18px 0px rgba(51, 51, 51, 0.04)",
+        fieldset: { border: "none" },
+        ":hover fieldset": {
+          border: "none",
+        },
+
+        "&.Mui-focused fieldset": {
+          border: `1px solid #1976d2 !important`,
+        },
       },
 
       input: {
@@ -23,6 +31,15 @@ const components: Components<Omit<Theme, "components">> = {
       },
     },
   },
+
+  MuiFormLabel: {
+    styleOverrides: {
+      root: {},
+      focused: "askmdkas",
+      filled: "asdasd",
+    },
+  },
+
   MuiButton: {
     styleOverrides: {
       root: {
