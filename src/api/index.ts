@@ -12,7 +12,7 @@ export const booksApi = createApi({
   reducerPath: "booksApi",
   tagTypes: ["books"],
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000/books",
+    baseUrl: "https://657bc4a7394ca9e4af14b9a3.mockapi.io/books",
   }),
   endpoints: (builder) => ({
     allBooks: builder.query<TBook[], void>({
