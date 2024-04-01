@@ -26,7 +26,7 @@ const components: Components<Omit<Theme, "components">> = {
   MuiButton: {
     styleOverrides: {
       root: {
-        textTransform: "capitalize",
+        textTransform: "none",
         fontFamily: '"Mulish", sans-serif',
         fontSize: "16px",
         fontWeight: "500",

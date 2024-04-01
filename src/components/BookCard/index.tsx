@@ -13,8 +13,10 @@ import editIcon from "../../assets/edit.svg";
 import { TBook } from "@/types";
 
 const CardWrapper = styled(Box)`
+  flex: 1;
   position: relative;
-  width: 397px;
+  min-width: 300px;
+  max-width: 397px;
   background: #fff;
   border-radius: 12px;
   padding: 32px;

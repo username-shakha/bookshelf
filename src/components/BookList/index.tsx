@@ -18,8 +18,8 @@ export default function BookList() {
 
   if (isError) return <h1>Not Found</h1>;
   return (
-    <Container>
-      <BookListHeader>
+    <Container maxWidth="lg" sx={{ pr: { xs: "34px", sm: "0px" } }}>
+      <BookListHeader sx={{ flexDirection: { sm: "row", xs: "column" } }}>
         <Box>
           <BookListCount variant="h2">
             You’ve got <span>{bookCount} book</span>
@@ -27,6 +27,7 @@ export default function BookList() {
           <BookListSubtitle>Your books today</BookListSubtitle>
         </Box>
         <Button
+          sx={{ mt: { xs: "18px" } }}
           startIcon={<AddIcon />}
           onClick={() => addBook(generateRandomBook())}
           variant="contained"
@@ -36,7 +37,7 @@ export default function BookList() {
           {addError && <p>Error</p>}
         </Button>
       </BookListHeader>
-      <BookListContent>
+      <BookListContent sx={{ justifyContent: { sm: "center", xs: "center" } }}>
         {isLoading && (
           <Typography variant="h3" color={"white"}>
             Loading...

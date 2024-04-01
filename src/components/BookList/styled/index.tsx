@@ -10,6 +10,7 @@ export const BookListHeader = styled(Box)({
 export const BookListContent = styled(Box)({
   display: "flex",
   flexWrap: "wrap",
+
   gap: "24px",
 });
 
