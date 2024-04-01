@@ -1,15 +1,14 @@
 import { Box, Button, Container, Typography } from "@mui/material";
-import { useAddBookMutation, useAllBooksQuery } from "@/api";
 import AddIcon from "@mui/icons-material/Add";
+import { useAddBookMutation, useAllBooksQuery } from "@/api";
+import generateRandomBook from "@/api/generateRandomBook";
+import BookCard from "../BookCard";
 import {
   BookListHeader,
   BookListCount,
   BookListSubtitle,
   BookListContent,
 } from "./styled";
-import BookCard from "../BookCard";
-
-import generateRandomBook from "@/api/generateRandomBook";
 
 export default function BookList() {
   const { data, isLoading, isError } = useAllBooksQuery();
@@ -33,12 +32,16 @@ export default function BookList() {
           variant="contained"
         >
           Create a book
-          {addLoading && "Loading"}
-          {addError && "Error"}
+          {addLoading && <p>Loading...</p>}
+          {addError && <p>Error</p>}
         </Button>
       </BookListHeader>
       <BookListContent>
-        {isLoading && <Typography variant="h3">Loading...</Typography>}
+        {isLoading && (
+          <Typography variant="h3" color={"white"}>
+            Loading...
+          </Typography>
+        )}
         {Array.isArray(data) && data.map((el) => <BookCard key={el.id} book={el} />)}
       </BookListContent>
     </Container>
