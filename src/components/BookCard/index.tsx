@@ -2,16 +2,10 @@ import { Box, styled } from "@mui/material";
 import { CardTitle, STypography, DeleteBook, EditBook } from "./styled";
 import delIcon from "../../assets/del.svg";
 import editIcon from "../../assets/edit.svg";
+import { TBook } from "@/types";
 
 interface IBookCard {
-  books: {
-    title: string;
-    cover: string;
-    pages: number;
-    published: number;
-    isbn: string;
-    author: string;
-  };
+  book: TBook;
 }
 
 const CardWrapper = styled(Box)`
@@ -47,8 +41,8 @@ const CardActions = styled(Box)`
   z-index: 1;
 `;
 
-export default function BookCard({ books }: IBookCard) {
-  const { title, cover, pages, published, isbn, author } = books;
+export default function BookCard({ book }: IBookCard) {
+  const { title, cover, pages, published, isbn, author } = book;
 
   return (
     <CardWrapper>
@@ -73,18 +67,3 @@ export default function BookCard({ books }: IBookCard) {
     </CardWrapper>
   );
 }
-
-// "book": {
-//   "id": 21,
-//   "isbn": "9781118464465",
-//   "title": "Raspberry Pi User Guide",
-//   "cover": "http://url.to.book.cover",
-//   "author": "Eben Upton",
-//   "published": 2012,
-//   "pages": 221
-// },
-// "status": 0
-// }
-// ],
-// "isOk": true,
-// "message": "ok"

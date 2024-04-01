@@ -7,21 +7,31 @@ export interface IFormControl<T extends FieldValues> {
   required?: boolean;
 }
 
-export type TBooksData = {
-  data: [
-    {
-      book: {
-        id: number;
-        isbn: string;
-        title: string;
-        cover: string;
-        author: string;
-        published: number;
-        pages: number;
-      };
-      status: number;
-    }
-  ];
-  isOk: boolean;
-  message: string;
+export type TBook = {
+  id: string;
+  isbn: string;
+  title: string;
+  cover: string;
+  author: string;
+  published: number;
+  pages: number;
 };
+
+// export type TBooksData = {
+//   data: [
+//     {
+//       book: {
+//         id: number;
+//         isbn: string;
+//         title: string;
+//         cover: string;
+//         author: string;
+//         published: number;
+//         pages: number;
+//       };
+//       status: number;
+//     }
+//   ];
+//   isOk: boolean;
+//   message: string;
+// };

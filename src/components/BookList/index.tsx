@@ -1,7 +1,7 @@
 import { Box, Button, Container, styled, Typography } from "@mui/material";
 import BookCard from "../BookCard";
+import { useAllBooksQuery } from "@/api";
 import { PlusIcon } from "../icons";
-import { useAllBooksQuery, useSignUpMutation } from "@/api";
 
 const BookListHeader = styled(Box)({
   display: "flex",
@@ -40,10 +40,9 @@ const BookListSubtitle = styled(Typography)({
 });
 
 export default function BookList() {
-  const { data } = useAllBooksQuery();
-  console.log(data);
+  const { data, isLoading, isError } = useAllBooksQuery();
 
-  console.log(data);
+  if (isError) return <h1>Not Found</h1>;
   return (
     <Container>
       <BookListHeader>
@@ -58,38 +57,39 @@ export default function BookList() {
         </Button>
       </BookListHeader>
       <BookListContent>
-        {[
-          {
-            id: 21,
-            isbn: "9781118464465",
-            title: "Raspberry Pi User Guide",
-            cover: "http://url.to.book.cover",
-            author: "Eben Upton",
-            published: 2012,
-            pages: 221,
-          },
-          {
-            id: 22,
-            isbn: "9781118464465",
-            title: "Raspberry Pi User Guide",
-            cover: "http://url.to.book.cover",
-            author: "Eben Upton",
-            published: 2012,
-            pages: 221,
-          },
-          {
-            id: 23,
-            isbn: "9781118464465",
-            title: "Raspberry Pi User Guide",
-            cover: "http://url.to.book.cover",
-            author: "Eben Upton",
-            published: 2012,
-            pages: 221,
-          },
-        ].map((el) => (
-          <BookCard key={el.id} books={el} />
-        ))}
+        {isLoading && <Typography variant="h3">Loading...</Typography>}
+        {Array.isArray(data) && data.map((el) => <BookCard key={el.id} book={el} />)}
       </BookListContent>
     </Container>
   );
 }
+
+// [
+//   {
+//     id: 21,
+//     isbn: "9781118464465",
+//     title: "Raspberry Pi User Guide",
+//     cover: "http://url.to.book.cover",
+//     author: "Eben Upton",
+//     published: 2012,
+//     pages: 221,
+//   },
+//   {
+//     id: 22,
+//     isbn: "9781118464465",
+//     title: "Raspberry Pi User Guide",
+//     cover: "http://url.to.book.cover",
+//     author: "Eben Upton",
+//     published: 2012,
+//     pages: 221,
+//   },
+//   {
+//     id: 23,
+//     isbn: "9781118464465",
+//     title: "Raspberry Pi User Guide",
+//     cover: "http://url.to.book.cover",
+//     author: "Eben Upton",
+//     published: 2012,
+//     pages: 221,
+//   },
+// ]
