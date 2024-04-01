@@ -1,21 +1,50 @@
 import { useForm } from "react-hook-form";
 import { Button, Stack } from "@mui/material";
 import { FormInput } from "@/components/Form/FormInput";
+import { setToken, removeToken } from "@/utils/token";
+
+import { useNavigate } from "react-router-dom";
+
+type TInputFieldTypes = {
+  username: string;
+  password: string;
+};
 
 export default function RegisterForm() {
-  const { control } = useForm<{
-    name: string;
-    password: string;
-    confirmPassword: string;
-  }>();
+  const navigate = useNavigate();
+
+  const { control, handleSubmit } = useForm<TInputFieldTypes>();
+
+  const submitRegister = async (registerData: TInputFieldTypes) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(registerData),
+      });
+      const result = await response.json();
+
+      if (result.token !== undefined) {
+        setToken(result.token);
+        navigate("/root");
+      }
+    } catch (error: unknown) {
+      removeToken();
+      console.error((error as Error).message);
+      throw new Error((error as Error).message);
+    }
+  };
+
   return (
-    <form onSubmit={() => {}}>
+    <form onSubmit={handleSubmit((data) => submitRegister(data))}>
       <Stack gap={2} pb={1.5}>
         <FormInput
-          {...{ control, name: "name" }}
+          {...{ control, name: "username" }}
           variant="outlined"
-          defaultValue={"john doe"}
           required
+          placeholder="Enter your name"
         />
         <FormInput
           {...{ control, name: "password" }}
@@ -24,12 +53,12 @@ export default function RegisterForm() {
           required
         />
 
-        <FormInput
+        {/* <FormInput
           {...{ control, name: "confirmPassword" }}
           variant="outlined"
           placeholder="Confirm password"
           required
-        />
+        /> */}
         <Button type="submit" variant="contained" fullWidth>
           Submit
         </Button>
