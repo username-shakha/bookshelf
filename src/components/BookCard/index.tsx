@@ -1,4 +1,4 @@
-import { Box, styled } from "@mui/material";
+import { Box, styled, Typography } from "@mui/material";
 import { useRemoveBookMutation } from "@/api";
 import {
   CardTitle,
@@ -70,8 +70,16 @@ export default function BookCard({ book }: IBookCard) {
   const statusVariant = status === 3 ? "Finished" : status === 1 ? "Reading" : "New";
   return (
     <CardWrapper>
-      {removeLoading && <h1>Loading...</h1>}
-      {removeError && <h1>Error... message</h1>}
+      {!removeLoading && (
+        <Typography
+          variant="h5"
+          color="error"
+          sx={{ mb: 1, fontFamily: "Monsterat, sans-serif" }}
+        >
+          Ups! Deleting...
+        </Typography>
+      )}
+      {removeError && <h1> Error... message</h1>}
       <CardTitle gutterBottom>{title}</CardTitle>
       <Info>Cover: {cover}</Info>
       <Info>Pages: {pages}</Info>

@@ -33,8 +33,8 @@ export default function BookList() {
           variant="contained"
         >
           Create a book
-          {addLoading && <p>Loading...</p>}
-          {addError && <p>Error</p>}
+          {addLoading && <p> Loading...</p>}
+          {addError && <p> Error</p>}
         </Button>
       </BookListHeader>
       <BookListContent sx={{ justifyContent: { sm: "center", xs: "center" } }}>
