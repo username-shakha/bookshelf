@@ -1,12 +1,19 @@
 import { Components, Theme } from "@mui/material";
 
 const components: Components<Omit<Theme, "components">> = {
+  MuiInputBase: {
+    styleOverrides: {
+      root: {
+        letterSpacing: "0",
+      },
+    },
+  },
   MuiOutlinedInput: {
     styleOverrides: {
       root: {
         fontFamily: '"Mulish", sans-serif',
         fontSize: "16px",
-        fontWeight: "400",
+        fontWeight: "500",
         borderRadius: "6px",
         border: "1px solid rgb(235, 235, 235) !important",
         color: "rgb(21, 21, 21)",
@@ -29,14 +36,6 @@ const components: Components<Omit<Theme, "components">> = {
           color: "rgb(21, 21, 21)",
         },
       },
-    },
-  },
-
-  MuiFormLabel: {
-    styleOverrides: {
-      root: {},
-      focused: "askmdkas",
-      filled: "asdasd",
     },
   },
 

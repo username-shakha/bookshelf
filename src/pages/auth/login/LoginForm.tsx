@@ -2,19 +2,21 @@
 import { useForm } from "react-hook-form";
 import { Button, Stack } from "@mui/material";
 import { FormInput } from "@/components/Form/FormInput";
+
 const margins = { ml: 0.5, mb: 0.7, color: "#242424" };
+
 export default function LoginForm() {
   const { control } = useForm<{
-    name: string;
+    username: string;
     password: string;
   }>();
   return (
-    <form action="">
+    <form action="" onSubmit={(e) => e.preventDefault()}>
       <Stack gap={2} pb={1.5}>
         <FormInput
-          {...{ control, name: "name" }}
+          {...{ control, name: "username" }}
           variant="outlined"
-          defaultValue={"john doe"}
+          placeholder={"Enter your user name"}
           mylabel="User Name"
           labelprops={{ sx: { ...margins } }}
           required
