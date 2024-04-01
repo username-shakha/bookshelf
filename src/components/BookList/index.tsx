@@ -1,5 +1,6 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import { useAddBookMutation, useAllBooksQuery } from "@/api";
+import AddIcon from "@mui/icons-material/Add";
 import {
   BookListHeader,
   BookListCount,
@@ -26,7 +27,11 @@ export default function BookList() {
           </BookListCount>
           <BookListSubtitle>Your books today</BookListSubtitle>
         </Box>
-        <Button onClick={() => addBook(generateRandomBook())} variant="contained">
+        <Button
+          startIcon={<AddIcon />}
+          onClick={() => addBook(generateRandomBook())}
+          variant="contained"
+        >
           Create a book
           {addLoading && "Loading"}
           {addError && "Error"}

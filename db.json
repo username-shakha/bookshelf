@@ -53,6 +53,15 @@
       "author": "Random Author",
       "published": 1563,
       "pages": 249
+    },
+    {
+      "id": "ad29",
+      "isbn": "bh9znn",
+      "title": "Random Book Title",
+      "cover": "http://url.to.book.cover",
+      "author": "Random Author",
+      "published": 1625,
+      "pages": 209
     }
   ]
 }
