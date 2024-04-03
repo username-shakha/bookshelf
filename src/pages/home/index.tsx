@@ -28,6 +28,9 @@ export default function HomePage() {
       <Button onClick={() => addBook("9781118464465")} variant="contained">
         Test Get All Books
       </Button>
+      <Button onClick={() => {}} variant="contained">
+        Test Get User info
+      </Button>
       {/* <BookList /> */}
     </div>
   );

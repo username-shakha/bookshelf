@@ -25,21 +25,8 @@ export type TUser = {
   secret: string;
 };
 
-// export type TBooksData = {
-//   data: [
-//     {
-//       book: {
-//         id: number;
-//         isbn: string;
-//         title: string;
-//         cover: string;
-//         author: string;
-//         published: number;
-//         pages: number;
-//       };
-//       status: number;
-//     }
-//   ];
-//   isOk: boolean;
-//   message: string;
-// };
+export type TNewUserResponse = {
+  data: Pick<TUser, keyof TUser> & { id: number };
+  isOk: boolean;
+  message: string;
+};
