@@ -18,6 +18,13 @@ export type TBook = {
   status: number;
 };
 
+export type TUser = {
+  name: string;
+  email: string;
+  key: string;
+  secret: string;
+};
+
 // export type TBooksData = {
 //   data: [
 //     {
