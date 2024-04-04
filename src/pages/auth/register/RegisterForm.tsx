@@ -2,6 +2,9 @@ import { useForm } from "react-hook-form";
 import { Button, Stack } from "@mui/material";
 import { FormInput } from "@/components/Form/FormInput";
 import useUserManagement from "@/hooks/useUserManagement";
+import { useEffect } from "react";
+import { getUserToken } from "@/utils/token";
+import { useNavigate } from "react-router-dom";
 
 type TInputFieldTypes = {
   username: string;
@@ -12,10 +15,16 @@ type TInputFieldTypes = {
 };
 const margins = { ml: 0.5, mb: 0.7, color: "#242424" };
 export default function RegisterForm() {
-  // const navigate = useNavigate();
-
+  const navigate = useNavigate();
   const { createNewUser } = useUserManagement();
   const { control, handleSubmit } = useForm<TInputFieldTypes>();
+
+  useEffect(() => {
+    const userToken = getUserToken();
+    if (userToken) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   return (
     <form

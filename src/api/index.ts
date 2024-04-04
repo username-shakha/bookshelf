@@ -1,30 +1,14 @@
 import { fetchBaseQuery } from "@reduxjs/toolkit/query";
 import { createApi } from "@reduxjs/toolkit/query/react";
-import md5 from "md5";
-// import CryptoJS from "crypto-js";
-// var CryptoJS = require("crypto-js")
-import { TNewUserResponse, TBook, TUser } from "@/types";
+import { TBook, TUser, TResponse, TBookStatus } from "@/types";
+import generateMD5Hash from "./generateMD5Hash";
+import { getUserToken } from "@/utils/token";
 
 const tagTypes = () => [
   {
     type: "books" as const,
   },
 ];
-
-localStorage.getItem("Key");
-localStorage.getItem("Secret");
-
-//hashed function return example => "2892678138d8d793a28fc49055095d8b"
-const hashed = (method: string, url: string, body: object, secret: string | null) => {
-  if (secret === null) return;
-  const hashed = md5(`${method}${url}${JSON.stringify(body)}${secret}`);
-  console.log(
-    `Md5: mana hashed bulekkan string `,
-    `"${method}${url}${JSON.stringify(body)}${secret}"`,
-    "hashed" + ` mana hashed => ${hashed}`
-  );
-  return hashed;
-};
 
 export const booksApi = createApi({
   reducerPath: "booksApi",
@@ -34,13 +18,18 @@ export const booksApi = createApi({
   }),
 
   endpoints: (builder) => ({
-    getAllBooks: builder.query<TBook[], void>({
+    getAllBooks: builder.query<TResponse, void>({
       query: () => ({
         url: "/books",
         method: "GET",
         headers: {
-          Key: localStorage.getItem("Key") as string,
-          Sign: hashed("GET", "/books", { body: "body" }, localStorage.getItem("Secret")),
+          Key: getUserToken()?.Key as string,
+          Sign: generateMD5Hash({
+            method: "GET",
+            url: "/books",
+            body: null,
+            secret: getUserToken()?.Secret as string,
+          }),
         },
       }),
       providesTags: tagTypes,
@@ -54,20 +43,26 @@ export const booksApi = createApi({
           isbn: isbn,
         },
         headers: {
-          Key: localStorage.getItem("Key") as string,
-          Sign: hashed(
-            "POST",
-            "/books",
-            {
-              isbn: isbn,
-            },
-            localStorage.getItem("Secret")
-          ),
+          Key: getUserToken()?.Key as string,
+          Sign: generateMD5Hash({
+            method: "POST",
+            url: "/books",
+            body: JSON.stringify({ isbn: isbn }),
+            secret: getUserToken()?.Secret as string,
+          }),
         },
       }),
+      invalidatesTags: tagTypes,
     }),
 
-    createNewUser: builder.mutation<TNewUserResponse, TUser>({
+    createNewUser: builder.mutation<
+      {
+        data: TUser;
+        isOk: boolean;
+        message: string;
+      },
+      Omit<TUser, "id">
+    >({
       query: (user) => ({
         url: "/signup",
         method: "POST",
@@ -76,49 +71,82 @@ export const booksApi = createApi({
       invalidatesTags: tagTypes,
     }),
 
-    getUserInfo: builder.mutation<void, TNewUserResponse["data"]>({
-      query: (user) => ({
+    getUserInfo: builder.mutation<
+      {
+        data: TUser;
+        isOk: boolean;
+        message: string;
+      },
+      void
+    >({
+      query: () => ({
         url: "/myself",
         method: "GET",
         headers: {
-          Key: user.key,
-          Sign: hashed("GET", "/myself", user, user.secret),
+          Key: getUserToken()?.Key as string,
+          Sign: generateMD5Hash({
+            method: "GET",
+            url: "/myself",
+            body: null,
+            secret: getUserToken()?.Secret as string,
+          }),
         },
       }),
+      invalidatesTags: tagTypes,
     }),
 
     searchBook: builder.mutation<void, TBook["title"]>({
       query: (title) => ({
-        url: `/books/:${title}`,
-      }),
-    }),
-
-    editBook: builder.mutation<void, TBook["id"]>({
-      query: (id) => ({
-        url: `/books/:${id}`,
-        method: "PATCH",
-        // headers: {
-        //   "Content-Type": "application/json",
-        //   Key: key,
-        //    Sign: hashed("PATH", "/books/:${id}", {zaprosti bodysi}, "userdisecreti"),
-        // },
-        body: {
-          book: {
-            isbn: "9781118464465",
-            title: "Raspberry Pi User Guide",
-            author: "Eben Upton",
-            published: 2012,
-            pages: 221,
-          },
-          status: 1,
+        method: "GET",
+        url: `/books/${encodeURIComponent(title)}`,
+        headers: {
+          Key: getUserToken()?.Key as string,
+          Sign: generateMD5Hash({
+            method: "GET",
+            url: `/books/${title}`,
+            body: null,
+            secret: getUserToken()?.Secret as string,
+          }),
         },
       }),
     }),
 
+    editBook: builder.mutation<
+      void,
+      { id: TBook["id"]; statuses: TBookStatus["status"] }
+    >({
+      query: ({ id, statuses }) => ({
+        url: `/books/${id}`,
+        method: "PATCH",
+        headers: {
+          Key: getUserToken()?.Key as string,
+          Sign: generateMD5Hash({
+            method: "PATCH",
+            url: `/books/${id}`,
+            body: JSON.stringify({ status: statuses }),
+            secret: getUserToken()?.Secret as string,
+          }),
+        },
+        body: {
+          status: statuses,
+        },
+      }),
+      invalidatesTags: tagTypes,
+    }),
+
     removeBook: builder.mutation<void, TBook["id"]>({
       query: (id) => ({
-        url: `/${id}`,
+        url: `/books/${id}`,
         method: "DELETE",
+        headers: {
+          Key: getUserToken()?.Key as string,
+          Sign: generateMD5Hash({
+            method: "DELETE",
+            url: `/books/${id}`,
+            body: null,
+            secret: getUserToken()?.Secret as string,
+          }),
+        },
       }),
       invalidatesTags: tagTypes,
     }),
@@ -126,6 +154,7 @@ export const booksApi = createApi({
 });
 
 export const {
+  useGetAllBooksQuery,
   useCreateNewUserMutation,
   useGetUserInfoMutation,
   useSearchBookMutation,
@@ -133,3 +162,6 @@ export const {
   useEditBookMutation,
   useRemoveBookMutation,
 } = booksApi;
+
+//e09b785d4b3040c3d8bf84cf82a7b944
+//e56e4d381ecc3b75e3baed10d3e98b92

@@ -1,37 +1,34 @@
-// import useUserManagement from "@/hooks/useUserManagement";
-import useUserManagement from "@/hooks/useUserManagement";
-import { Button } from "@mui/material";
-// import BookList from "@/components/BookList";
-// import { getUserToken } from "@/utils/token";
-// import { useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-
-// import { useGetAllBooksQuery } from "@/api";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import BookList from "@/components/BookList";
+import { getUserToken } from "@/utils/token";
 
 export default function HomePage() {
-  const { addBook } = useUserManagement();
-
-  // const { data } = useUserManagement();
-  // console.log(data);
-
-  // const { data } = useGetAllBooksQuery();
-  // console.log(data);
-  // const navigate = useNavigate();
-  // useEffect(() => {
-  //   const userToken = getUserToken();
-  //   if (!userToken) {
-  //     navigate("/register");
-  //   }
-  // }, [navigate]);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const userToken = getUserToken();
+    if (userToken === null) {
+      navigate("/login");
+    }
+  }, [navigate]);
   return (
     <div>
-      <Button onClick={() => addBook("9781118464465")} variant="contained">
-        Test Get All Books
+      {/* <Button onClick={() => addBook("978-5-04-102313-3")} variant="contained">
+        Test addBook
       </Button>
-      <Button onClick={() => {}} variant="contained">
+      <Button variant="contained" onClick={() => getUserInfo()}>
         Test Get User info
       </Button>
-      {/* <BookList /> */}
+      <Button variant="contained" onClick={() => removeBook(131)}>
+        Test Remove Book
+      </Button>
+      <Button variant="contained" onClick={() => editBook({ id: 130, statuses: 1 })}>
+        Test Edit Book
+      </Button>
+      <Button variant="contained" onClick={() => searchBook("Raspberry Pi User Guide")}>
+        Test Search Book
+      </Button> */}
+      <BookList />
     </div>
   );
 }

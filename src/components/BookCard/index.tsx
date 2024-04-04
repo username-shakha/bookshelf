@@ -1,5 +1,5 @@
-import { Box, styled, Typography } from "@mui/material";
-import { useRemoveBookMutation } from "@/api";
+import { Box, MenuItem, styled, Typography } from "@mui/material";
+
 import {
   CardTitle,
   Info,
@@ -7,22 +7,27 @@ import {
   EditBook,
   BookStatus,
   BookCardFooter,
+  StyledMenu,
 } from "./styled";
 import delIcon from "../../assets/del.svg";
 import editIcon from "../../assets/edit.svg";
-import { TBook } from "@/types";
+import { TBookWithStatus } from "@/types";
+import useUserManagement from "@/hooks/useUserManagement";
+import { useState, MouseEvent } from "react";
+import useResponsive from "@/hooks/useResponsive";
 
 const CardWrapper = styled(Box)`
   flex: 1;
   position: relative;
   min-width: 300px;
   max-width: 397px;
+  height: fit-content;
   background: #fff;
   border-radius: 12px;
   padding: 32px;
   box-shadow: 0px 4px 24px 0px rgba(51, 51, 51, 0.08);
 
-  &:hover .card-actions {
+  /* &:hover .card-actions {
     visibility: visible;
     transform: translateX(-100%);
   }
@@ -30,7 +35,7 @@ const CardWrapper = styled(Box)`
   &:not(:hover) .card-actions {
     visibility: hidden;
     transform: translateX(-40%);
-  }
+  } */
 `;
 
 const CardActions = styled(Box)`
@@ -38,8 +43,8 @@ const CardActions = styled(Box)`
   height: 32px;
   position: absolute;
   top: 16px;
-  right: -65px;
-  visibility: hidden;
+  right: -36px; //-65px
+  visibility: visible; //hidden
   transition: transform 0.5s ease-in-out, visibility 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
@@ -48,29 +53,36 @@ const CardActions = styled(Box)`
 `;
 
 interface IBookCard {
-  book: TBook;
+  book: TBookWithStatus;
 }
 
 export default function BookCard({ book }: IBookCard) {
-  const [removeBook, { isLoading: removeLoading, isError: removeError }] =
-    useRemoveBookMutation();
-
-  const { title, cover, pages, published, isbn, author, id, status } = book;
-
-  const handleRemoveBook = async () => {
-    try {
-      await removeBook(id);
-      //task
-    } catch (error) {
-      //task
-    }
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: MouseEvent<HTMLDivElement>) => {
+    setAnchorEl(event.currentTarget);
   };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const isMobile = useResponsive("between", "xs", "sm");
+  //isEditBookLoading, isEditBookError,
+  const {
+    isRemoveBookLoading,
+    isRemoveBookError,
+    isEditBookLoading,
+    isEditBookError,
+    removeBook,
+    editBook,
+  } = useUserManagement();
+  const { title, cover, pages, published, isbn, author, id } = book.book;
+  const status = Number(book.status);
+  const colors = status === 1 ? "#FFEC43" : status === 2 ? "#00FF00" : "#FF0000";
+  const statusMemoized = status === 2 ? "Finished" : status === 1 ? "Reading" : "New";
 
-  const colors = status === 1 ? "#FFEC43" : status === 3 ? "#00FF00" : "#FF0000";
-  const statusVariant = status === 3 ? "Finished" : status === 1 ? "Reading" : "New";
   return (
     <CardWrapper>
-      {removeLoading && (
+      {isRemoveBookLoading && (
         <Typography
           variant="h5"
           color="error"
@@ -79,9 +91,12 @@ export default function BookCard({ book }: IBookCard) {
           Ups! Deleting...
         </Typography>
       )}
-      {removeError && <h1> Error... message</h1>}
+      {isRemoveBookError && <h1> Error... message</h1>}
       <CardTitle gutterBottom>{title}</CardTitle>
-      <Info>Cover: {cover}</Info>
+      <Info>
+        Cover:{" "}
+        {isMobile ? `${cover.substring(0, 30)}${cover.length >= 30 ? "..." : ""}` : cover}
+      </Info>
       <Info>Pages: {pages}</Info>
       <Info>Published: {published}</Info>
       <Info>Isbn: {isbn}</Info>
@@ -91,19 +106,58 @@ export default function BookCard({ book }: IBookCard) {
         </Info>
         <BookStatus
           sx={{
+            fontSize: isEditBookLoading ? "12px" : "14px",
             background: colors,
           }}
         >
-          {statusVariant}
+          {isEditBookError && "Error..."}
+          {isEditBookLoading ? "One moment..." : statusMemoized}
         </BookStatus>
       </BookCardFooter>
       <CardActions className="card-actions">
-        <DeleteBook onClick={handleRemoveBook}>
+        <DeleteBook onClick={() => removeBook(id)}>
           <img src={delIcon} alt="delete" />
         </DeleteBook>
-        <EditBook>
+        <EditBook onClick={(e) => handleClick(e)}>
           <img src={editIcon} alt="edit" />
         </EditBook>
+        <StyledMenu
+          id="demo-customized-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem
+            selected={status === 0}
+            onClick={() => {
+              editBook({ id: id, statuses: 0 });
+              handleClose();
+            }}
+          >
+            New
+          </MenuItem>
+          <MenuItem
+            selected={status === 1}
+            onClick={() => {
+              editBook({ id: id, statuses: 1 });
+              handleClose();
+            }}
+          >
+            Reading
+          </MenuItem>
+          <MenuItem
+            selected={status === 2}
+            onClick={() => {
+              editBook({ id: id, statuses: 2 });
+              handleClose();
+            }}
+          >
+            Finished
+          </MenuItem>
+        </StyledMenu>
       </CardActions>
     </CardWrapper>
   );

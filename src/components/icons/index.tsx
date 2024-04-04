@@ -96,3 +96,25 @@ export const PlusIcon = () => (
     </g>
   </svg>
 );
+
+export const CloseMyIcon = () => (
+  <svg
+    width="21.000000"
+    height="22.000000"
+    viewBox="0 0 21 22"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlnsXlink="http://www.w3.org/1999/xlink"
+  >
+    <desc>Created with Pixso.</desc>
+    <defs />
+    <path
+      id="Icon"
+      d="M10 20.5C4.47 20.5 0 16.02 0 10.5C0 4.97 4.47 0.5 10 0.5C15.52 0.5 20 4.97 20 10.5C20 16.02 15.52 20.5 10 20.5ZM13 7.5L7 13.5M7 7.5L13 13.5"
+      stroke="#151515"
+      strokeOpacity="1.000000"
+      strokeWidth="1.600000"
+      strokeLinejoin="round"
+    />
+  </svg>
+);

@@ -11,7 +11,7 @@ export default function LoginForm() {
     password: string;
   }>();
   return (
-    <form action="" onSubmit={(e) => e.preventDefault()}>
+    <form action="">
       <Stack gap={2} pb={1.5}>
         <FormInput
           {...{ control, name: "username" }}
