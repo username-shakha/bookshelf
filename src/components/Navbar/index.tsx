@@ -4,6 +4,7 @@ import { NavbarInnerWrapper } from "./styled";
 import CustomUserAvatar from "../Avatar";
 import Logo from "../Logo";
 import { BellIcon } from "../icons";
+import { removeToken } from "@/utils/token";
 
 const ContentLeft = styled(Box)``;
 const ContentRight = styled(Box)``;
@@ -19,7 +20,7 @@ export default function Navbar() {
           <IconButton>
             <BellIcon />
           </IconButton>
-          <IconButton sx={{ ml: 2 }}>
+          <IconButton sx={{ ml: 2 }} onClick={() => removeToken()}>
             <CustomUserAvatar />
           </IconButton>
         </ContentRight>
