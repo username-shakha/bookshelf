@@ -15,6 +15,7 @@ import {
   CardActions,
   InputAdornment,
   useMediaQuery,
+  Theme,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import useUserManagement from "@/hooks/useUserManagement";
@@ -31,7 +32,7 @@ import {
 } from "./styled";
 
 export default function BookList() {
-  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
   const {
     addBook,
     allBooks,
