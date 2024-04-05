@@ -30,7 +30,7 @@ const components: Components<Omit<Theme, "components">> = {
       },
 
       input: ({ theme }) => ({
-        padding: "14px 16px 14px 16px !important",
+        padding: "14px 16px 14px 16px",
         "&::placeholder": {
           opacity: 0.28,
           color: "rgb(21, 21, 21)",

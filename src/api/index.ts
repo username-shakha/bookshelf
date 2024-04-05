@@ -109,6 +109,7 @@ export const booksApi = createApi({
           }),
         },
       }),
+      invalidatesTags: tagTypes,
     }),
 
     editBook: builder.mutation<

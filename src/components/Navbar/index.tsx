@@ -5,8 +5,14 @@ import CustomUserAvatar from "../Avatar";
 import Logo from "../Logo";
 import { BellIcon } from "../icons";
 import { removeToken } from "@/utils/token";
+import SearchBar from "./SearchBar";
 
-const ContentLeft = styled(Box)``;
+const ContentLeft = styled(Box)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+`;
 const ContentRight = styled(Box)``;
 
 export default function Navbar() {
@@ -15,6 +21,7 @@ export default function Navbar() {
       <NavbarInnerWrapper>
         <ContentLeft>
           <Logo />
+          <SearchBar />
         </ContentLeft>
         <ContentRight>
           <IconButton>
