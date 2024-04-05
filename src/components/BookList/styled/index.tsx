@@ -37,7 +37,7 @@ export const BookListSubtitle = styled(Typography)({
   textAlign: "left",
 });
 
-export const AddBookDialog = styled(Box)({
+export const AddBookDialog = styled(Box)(({ theme }) => ({
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -47,7 +47,10 @@ export const AddBookDialog = styled(Box)({
   borderRadius: "12px",
   boxShadow: "0px 4px 32px 0px rgba(51, 51, 51, 0.04)",
   background: "rgb(254, 254, 254)",
-});
+  [theme.breakpoints.down("sm")]: {
+    width: "370px",
+  },
+}));
 
 export const AddBookDialogTitle = styled(Typography)({
   color: "rgb(21, 21, 21)",

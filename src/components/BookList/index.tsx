@@ -14,6 +14,7 @@ import {
   IconButton,
   CardActions,
   InputAdornment,
+  useMediaQuery,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import useUserManagement from "@/hooks/useUserManagement";
@@ -30,15 +31,18 @@ import {
 } from "./styled";
 
 export default function BookList() {
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const {
     addBook,
     allBooks,
+    isAllBooksError,
     // getUserInfo,
     // searchBook,
     isAddBookLoading,
     isAddBookError,
     isAllBooksLoading,
   } = useUserManagement();
+  const [error, setError] = useState(false);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -47,18 +51,24 @@ export default function BookList() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const RefValue = AddBookInputRef.current?.value || "";
-    if (RefValue !== null) {
+    console.log(RefValue);
+    if (RefValue !== null && RefValue.trim() !== "") {
+      console.log(RefValue, "2");
       console.log(RefValue);
       addBook(RefValue);
+      setError(false);
       handleClose();
+    } else {
+      setError(true);
+      console.log("iwladi");
     }
   };
 
-  //   if (isError) return <h1>Not Found</h1>;
+  if (isAllBooksError) return <h1>Not Found</h1>;
   return (
     <>
       <Container maxWidth="lg" sx={{ pr: { xs: "34px", sm: "0px" } }}>
-        <BookListHeader sx={{ flexDirection: { sm: "row", xs: "column" } }}>
+        <BookListHeader sx={{ pr: 2, flexDirection: { sm: "row", xs: "column" } }}>
           <Box>
             <BookListCount variant="h2">
               You’ve got{" "}
@@ -90,6 +100,7 @@ export default function BookList() {
         </BookListContent>
       </Container>
       <Modal
+        sx={{ px: 2 }}
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -110,8 +121,11 @@ export default function BookList() {
             />
             <form action="" onSubmit={handleSubmit}>
               <CardContent sx={{ py: 3.5, px: 0 }}>
-                <StyledInputLabel sx={{ ml: 0 }}>ISBN</StyledInputLabel>
+                <StyledInputLabel sx={{ ml: 0.2 }}>ISBN</StyledInputLabel>
                 <TextField
+                  error={error}
+                  helperText={error ? "Please enter the correct value" : ""}
+                  onFocus={() => setError(false)}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start" sx={{ cursor: "pointer" }}>
@@ -122,12 +136,21 @@ export default function BookList() {
                   inputRef={AddBookInputRef}
                   sx={{ ...disabledNumer }}
                   type="text"
-                  inputProps={{ pattern: "[0-9-]*" }}
+                  // inputProps={{ pattern: /^[0-9-]*$/ }}
                   fullWidth
                   placeholder="_____________"
                 />
               </CardContent>
-              <CardActions sx={{ p: 0 }}>
+              <CardActions
+                sx={{
+                  padding: 0,
+                  flexDirection: isSmallScreen ? "column" : "row",
+                  gap: isSmallScreen ? "10px" : "0px",
+                  "& > :not(style) ~ :not(style)": {
+                    marginLeft: isSmallScreen ? 0 : "8px",
+                  },
+                }}
+              >
                 <Button
                   sx={{ py: 1.1 }}
                   variant="outlined"

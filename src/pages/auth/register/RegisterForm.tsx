@@ -1,10 +1,12 @@
 import { useForm } from "react-hook-form";
-import { Button, Stack } from "@mui/material";
+import { Button, IconButton, InputAdornment, Stack } from "@mui/material";
 import { FormInput } from "@/components/Form/FormInput";
 import useUserManagement from "@/hooks/useUserManagement";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getUserToken } from "@/utils/token";
 import { useNavigate } from "react-router-dom";
+import { emailPattern, PasswordPatten } from "@/constants";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 type TInputFieldTypes = {
   username: string;
@@ -18,7 +20,8 @@ export default function RegisterForm() {
   const navigate = useNavigate();
   const { createNewUser } = useUserManagement();
   const { control, handleSubmit } = useForm<TInputFieldTypes>();
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [showSecret, setShowSecret] = useState(false);
   useEffect(() => {
     const userToken = getUserToken();
     if (userToken) {
@@ -28,12 +31,21 @@ export default function RegisterForm() {
 
   return (
     <form
+      autoComplete="off"
       onSubmit={handleSubmit(({ username, email, password, secret }) =>
         createNewUser({
           name: username,
           email: email,
           key: password,
           secret: secret,
+        }).then((data) => {
+          try {
+            console.log(data);
+          } catch (error) {
+            //setStateError(error)
+            //or || data.message
+            console.log(error);
+          }
         })
       )}
     >
@@ -50,7 +62,14 @@ export default function RegisterForm() {
         <FormInput
           {...{ control, name: "email" }}
           variant="outlined"
+          type="email"
           placeholder="Enter your email"
+          rules={{
+            pattern: {
+              value: emailPattern,
+              message: "Email is invalid",
+            },
+          }}
           mylabel="Email"
           labelprops={{ sx: margins }}
           required
@@ -60,18 +79,44 @@ export default function RegisterForm() {
           {...{ control, name: "password" }}
           variant="outlined"
           placeholder="Enter your password"
+          type={showPassword ? "text" : "password"}
           mylabel="Password"
           labelprops={{ sx: margins }}
           required
+          rules={{
+            pattern: {
+              value: PasswordPatten,
+              message: "Password is invalid. Example: Shaxzod_2424",
+            },
+          }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => setShowPassword(!showPassword)}>
+                  {!showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
 
         <FormInput
           {...{ control, name: "secret" }}
+          type={showSecret ? "text" : "password"}
           variant="outlined"
           placeholder="Enter your secret"
           mylabel="User secret"
           labelprops={{ sx: margins }}
           required
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => setShowSecret(!showSecret)}>
+                  {!showSecret ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
 
         {/* <FormInput

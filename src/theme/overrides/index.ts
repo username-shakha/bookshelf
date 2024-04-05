@@ -29,12 +29,28 @@ const components: Components<Omit<Theme, "components">> = {
         },
       },
 
-      input: {
+      input: ({ theme }) => ({
         padding: "14px 16px 14px 16px !important",
         "&::placeholder": {
           opacity: 0.28,
           color: "rgb(21, 21, 21)",
         },
+        [theme.breakpoints.down("sm")]: {
+          padding: "10px !important",
+          "&::placeholder": {
+            fontSize: "15px",
+            opacity: 0.28,
+            color: "rgb(21, 21, 21)",
+          },
+        },
+      }),
+    },
+  },
+
+  MuiBackdrop: {
+    styleOverrides: {
+      root: {
+        padding: "0px 10px",
       },
     },
   },

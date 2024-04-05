@@ -11,7 +11,7 @@ export default function LoginForm() {
     password: string;
   }>();
   return (
-    <form action="">
+    <form noValidate autoComplete="off">
       <Stack gap={2} pb={1.5}>
         <FormInput
           {...{ control, name: "username" }}
@@ -30,7 +30,8 @@ export default function LoginForm() {
           labelprops={{ sx: { ...margins } }}
           required
         />
-        <Button type="submit" variant="contained" fullWidth>
+        {/* noSubmit */}
+        <Button type="button" variant="contained" fullWidth>
           Submit
         </Button>
       </Stack>
