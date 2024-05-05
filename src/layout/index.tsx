@@ -7,7 +7,7 @@ export default function Root({ children }: { children: ReactNode }) {
 
   return (
     <>
-      {pathname !== "/signup" && pathname !== "/login" && pathname !== "*" && <Navbar />}
+      {pathname !== "/signup" && pathname !== "/login" && pathname === "/" && <Navbar />}
       {children}
     </>
   );

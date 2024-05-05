@@ -1,56 +1,46 @@
-import { useState, useRef } from "react";
-// import TextField from "@mui/material/TextField";
+import { useState, useEffect } from "react";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
-import { Search, Close } from "@mui/icons-material";
 import useUserManagement from "@/hooks/useUserManagement";
-import CustomizableSearchInput from "./styled/CustomizableSearchInput";
+import { CloseIcon, SearchIcon } from "@/components/icons";
+import { TextField } from "@mui/material";
+import { isShowSeachBarInput } from "@/utils";
 
 export default function SearchBar() {
   const { searchBook } = useUserManagement();
-  const [isActive, setIsActive] = useState(false);
-  const searchRef = useRef<HTMLInputElement | null>(null);
+  const [showSearch, setShowSearch] = useState(false);
 
-  const handleSearchClick = () => {
-    if (searchRef.current && searchRef.current.value.trim() !== "") {
-      searchBook(searchRef.current.value.trim());
-      searchRef.current.value = "";
-      setIsActive(false);
-    }
+  const [inputValue, setInputValue] = useState("");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
   };
 
-  const handleClearClick = () => {
-    if (searchRef.current) {
-      searchRef.current.value = "";
-      setIsActive(false);
-    }
-  };
-
-  const handleChange = () => {
-    setIsActive(Boolean(searchRef.current?.value.trim()));
-  };
+  useEffect(() => {
+    showSearch
+      ? setInputValue("Raspberry")
+      : setInputValue("Search for any training you want");
+  }, [showSearch]);
 
   return (
-    <CustomizableSearchInput
+    <TextField
+      disabled={!showSearch}
+      sx={isShowSeachBarInput(showSearch)}
       type="text"
-      inputRef={searchRef}
-      placeholder="Raspberry"
+      value={inputValue}
       onChange={handleChange}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
-            <IconButton onClick={handleSearchClick} disabled={!isActive}>
-              <Search />
+            <IconButton onClick={() => setShowSearch(true)} disabled={showSearch}>
+              <SearchIcon style={{ stroke: `${showSearch ? "#000" : "#fff"}` }} />
             </IconButton>
           </InputAdornment>
         ),
-        endAdornment: (
+        endAdornment: showSearch && (
           <InputAdornment position="end">
-            {isActive && (
-              <IconButton onClick={handleClearClick}>
-                <Close />
-              </IconButton>
-            )}
+            <IconButton onClick={() => setShowSearch(false)}>
+              <CloseIcon style={{ stroke: "#333333" }} />
+            </IconButton>
           </InputAdornment>
         ),
       }}

@@ -15,7 +15,7 @@ export default function HomePage() {
   useEffect(() => {
     const userToken = getUserToken();
     if (userToken === null) {
-      navigate("/login");
+      navigate("/signup");
     }
   }, [navigate]);
   return (

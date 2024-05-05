@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { Box, MenuItem, styled, Typography } from "@mui/material";
-
+import useUserManagement from "@/hooks/useUserManagement";
+import useResponsive from "@/hooks/useResponsive";
+import { DellIcon, EditIcon } from "@/components/icons";
 import {
   CardTitle,
   Info,
@@ -9,12 +12,7 @@ import {
   BookCardFooter,
   StyledMenu,
 } from "./styled";
-import delIcon from "../../assets/del.svg";
-import editIcon from "../../assets/edit.svg";
 import { TBookWithStatus } from "@/types";
-import useUserManagement from "@/hooks/useUserManagement";
-import { useState, MouseEvent } from "react";
-import useResponsive from "@/hooks/useResponsive";
 
 const CardWrapper = styled(Box)`
   flex: 1;
@@ -57,15 +55,7 @@ interface IBookCard {
 }
 
 export default function BookCard({ book }: IBookCard) {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: MouseEvent<HTMLDivElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const isMobile = useResponsive("between", "xs", "sm");
+  const { title, cover, pages, published, isbn, author, id } = book.book;
   //isEditBookLoading, isEditBookError,
   const {
     isRemoveBookLoading,
@@ -75,7 +65,16 @@ export default function BookCard({ book }: IBookCard) {
     removeBook,
     editBook,
   } = useUserManagement();
-  const { title, cover, pages, published, isbn, author, id } = book.book;
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const isMobile = useResponsive("between", "xs", "sm");
+
   const status = Number(book.status);
   const colors = status === 1 ? "#FFEC43" : status === 2 ? "#00FF00" : "#FF0000";
   const statusMemoized = status === 2 ? "Finished" : status === 1 ? "Reading" : "New";
@@ -116,10 +115,10 @@ export default function BookCard({ book }: IBookCard) {
       </BookCardFooter>
       <CardActions className="card-actions">
         <DeleteBook onClick={() => removeBook(id)}>
-          <img src={delIcon} alt="delete" />
+          <DellIcon />
         </DeleteBook>
-        <EditBook onClick={(e) => handleClick(e)}>
-          <img src={editIcon} alt="edit" />
+        <EditBook onClick={(e) => setAnchorEl(e.currentTarget)}>
+          <EditIcon />
         </EditBook>
         <StyledMenu
           id="demo-customized-menu"

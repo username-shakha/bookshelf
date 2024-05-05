@@ -1,12 +1,10 @@
 import { useRef, useState } from "react";
-import { Close } from "@mui/icons-material";
 import LinkIcon from "@mui/icons-material/Link";
 import {
   Box,
   Button,
   Container,
   Modal,
-  Typography,
   TextField,
   Card,
   CardHeader,
@@ -16,6 +14,7 @@ import {
   InputAdornment,
   useMediaQuery,
   Theme,
+  CircularProgress,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import useUserManagement from "@/hooks/useUserManagement";
@@ -30,13 +29,13 @@ import {
   disabledNumer,
   StyledInputLabel,
 } from "./styled";
+import { CloseIcon } from "@/components/icons";
 
 export default function BookList() {
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
   const {
     addBook,
     allBooks,
-    isAllBooksError,
     // getUserInfo,
     // searchBook,
     isAddBookLoading,
@@ -64,8 +63,6 @@ export default function BookList() {
       console.log("iwladi");
     }
   };
-
-  if (isAllBooksError) return <h1>Not Found</h1>;
   return (
     <>
       <Container maxWidth="lg" sx={{ pr: { xs: "34px", sm: "0px" } }}>
@@ -84,16 +81,12 @@ export default function BookList() {
             variant="contained"
           >
             Create a book
-            {isAddBookLoading && <p> Loading...</p>}
+            {isAddBookLoading && <CircularProgress />}
             {isAddBookError && <p> Error</p>}
           </Button>
         </BookListHeader>
         <BookListContent sx={{ justifyContent: { sm: "center", xs: "center" } }}>
-          {isAllBooksLoading && (
-            <Typography variant="h3" color={"white"}>
-              Loading...
-            </Typography>
-          )}
+          {isAllBooksLoading && <CircularProgress />}
           {Array.isArray(allBooks?.data) &&
             allBooks.data.map((el, i) => (
               <BookCard key={i} book={{ book: el.book, status: el.status }} />
@@ -116,7 +109,7 @@ export default function BookList() {
               }
               action={
                 <IconButton onClick={handleClose} aria-label="close">
-                  <Close />
+                  <CloseIcon />
                 </IconButton>
               }
             />

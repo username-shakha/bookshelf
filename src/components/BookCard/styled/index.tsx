@@ -22,18 +22,27 @@ export const CardTitle = styled(Typography)`
 
 export const DeleteBook = styled("div")`
   cursor: pointer;
+  display: grid;
+  place-items: "center";
   padding: 8px;
   border-radius: 6px 6px 6px 0px;
-  box-shadow: 0px 6px 32px 0px rgba(21, 21, 21, 0.48);
+
   background: rgb(255, 77, 79);
+  &:hover {
+    transition: 0.3s;
+    box-shadow: 0px 6px 32px 0px rgba(21, 21, 21, 0.48);
+  }
 `;
 
 export const EditBook = styled(Box)`
   cursor: pointer;
   padding: 8px;
   border-radius: 0px 6px 6px 6px;
-  box-shadow: 0px 6px 32px 0px rgba(21, 21, 21, 0.48);
   background: rgb(98, 0, 238);
+  &:hover {
+    transition: 0.3s;
+    box-shadow: 0px 6px 32px 0px rgba(21, 21, 21, 0.48);
+  }
 `;
 
 export const BookStatus = styled(Box)`
