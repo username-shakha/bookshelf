@@ -36,3 +36,7 @@ h2 {
 input {
   appearance: none;
 }
+
+#get-books-progress {
+  color: white;
+}

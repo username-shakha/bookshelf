@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, MenuItem, styled, Typography } from "@mui/material";
+import { Box, MenuItem, styled, Tooltip, Typography } from "@mui/material";
 import useUserManagement from "@/hooks/useUserManagement";
 import useResponsive from "@/hooks/useResponsive";
 import { DellIcon, EditIcon } from "@/components/icons";
@@ -114,12 +114,16 @@ export default function BookCard({ book }: IBookCard) {
         </BookStatus>
       </BookCardFooter>
       <CardActions className="card-actions">
-        <DeleteBook onClick={() => removeBook(id)}>
-          <DellIcon />
-        </DeleteBook>
-        <EditBook onClick={(e) => setAnchorEl(e.currentTarget)}>
-          <EditIcon />
-        </EditBook>
+        <Tooltip title="Delete book" placement={"right"}>
+          <DeleteBook onClick={() => removeBook(id)}>
+            <DellIcon />
+          </DeleteBook>
+        </Tooltip>
+        <Tooltip title="Edit book status" placement={"right"}>
+          <EditBook onClick={(e) => setAnchorEl(e.currentTarget)}>
+            <EditIcon />
+          </EditBook>
+        </Tooltip>
         <StyledMenu
           id="demo-customized-menu"
           anchorEl={anchorEl}

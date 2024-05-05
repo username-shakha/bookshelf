@@ -15,6 +15,7 @@ import {
   useMediaQuery,
   Theme,
   CircularProgress,
+  Tooltip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import useUserManagement from "@/hooks/useUserManagement";
@@ -81,12 +82,25 @@ export default function BookList() {
             variant="contained"
           >
             Create a book
-            {isAddBookLoading && <CircularProgress />}
-            {isAddBookError && <p> Error</p>}
+            {isAddBookLoading && (
+              <span
+                style={{
+                  marginLeft: "10px",
+                  display: "grid",
+                  placeItems: "center",
+                  color: "#fff",
+                }}
+              >
+                <CircularProgress size={"1rem"} color="inherit" />
+              </span>
+            )}
+            {isAddBookError && <span style={{ marginLeft: "5px" }}>failed</span>}
           </Button>
         </BookListHeader>
         <BookListContent sx={{ justifyContent: { sm: "center", xs: "center" } }}>
-          {isAllBooksLoading && <CircularProgress />}
+          {isAllBooksLoading && (
+            <CircularProgress id="get-books-progress" color="inherit" />
+          )}
           {Array.isArray(allBooks?.data) &&
             allBooks.data.map((el, i) => (
               <BookCard key={i} book={{ book: el.book, status: el.status }} />
@@ -109,7 +123,9 @@ export default function BookList() {
               }
               action={
                 <IconButton onClick={handleClose} aria-label="close">
-                  <CloseIcon />
+                  <Tooltip title="Close">
+                    <CloseIcon />
+                  </Tooltip>
                 </IconButton>
               }
             />

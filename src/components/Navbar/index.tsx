@@ -1,4 +1,4 @@
-import { Container, IconButton } from "@mui/material";
+import { Container, IconButton, Tooltip } from "@mui/material";
 import { ContentLeft, NavbarInnerWrapper, ContentRight } from "./styled";
 import SearchBar from "./SearchBar";
 import CustomUserAvatar from "../Avatar";
@@ -15,12 +15,16 @@ export default function Navbar() {
           <SearchBar />
         </ContentLeft>
         <ContentRight>
-          <IconButton>
-            <BellIcon />
-          </IconButton>
-          <IconButton onClick={() => removeToken()}>
-            <CustomUserAvatar />
-          </IconButton>
+          <Tooltip title="Notifications">
+            <IconButton>
+              <BellIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Settings">
+            <IconButton onClick={() => removeToken()}>
+              <CustomUserAvatar />
+            </IconButton>
+          </Tooltip>
         </ContentRight>
       </NavbarInnerWrapper>
     </Container>

@@ -3,7 +3,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import useUserManagement from "@/hooks/useUserManagement";
 import { CloseIcon, SearchIcon } from "@/components/icons";
-import { TextField } from "@mui/material";
+import { TextField, Tooltip } from "@mui/material";
 import { isShowSeachBarInput } from "@/utils";
 
 export default function SearchBar() {
@@ -31,16 +31,20 @@ export default function SearchBar() {
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
-            <IconButton onClick={() => setShowSearch(true)} disabled={showSearch}>
-              <SearchIcon style={{ stroke: `${showSearch ? "#000" : "#fff"}` }} />
-            </IconButton>
+            <Tooltip title="Open Search">
+              <IconButton onClick={() => setShowSearch(true)} disabled={showSearch}>
+                <SearchIcon style={{ stroke: `${showSearch ? "#000" : "#fff"}` }} />
+              </IconButton>
+            </Tooltip>
           </InputAdornment>
         ),
         endAdornment: showSearch && (
           <InputAdornment position="end">
-            <IconButton onClick={() => setShowSearch(false)}>
-              <CloseIcon style={{ stroke: "#333333" }} />
-            </IconButton>
+            <Tooltip title="Close Search">
+              <IconButton onClick={() => setShowSearch(false)}>
+                <CloseIcon style={{ stroke: "#333333" }} />
+              </IconButton>
+            </Tooltip>
           </InputAdornment>
         ),
       }}

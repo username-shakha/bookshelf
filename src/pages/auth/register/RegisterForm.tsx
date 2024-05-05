@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Button, IconButton, InputAdornment, Stack } from "@mui/material";
+import { Button, IconButton, InputAdornment, Stack, Tooltip } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import useUserManagement from "@/hooks/useUserManagement";
 import { FormInput } from "@/components/Form/FormInput";
@@ -96,13 +96,15 @@ export default function RegisterForm() {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton
-                  onClick={() =>
-                    setShow((prev) => ({ ...prev, password: !prev.password }))
-                  }
-                >
-                  {!show.password ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
+                <Tooltip title="Show password">
+                  <IconButton
+                    onClick={() =>
+                      setShow((prev) => ({ ...prev, password: !prev.password }))
+                    }
+                  >
+                    {!show.password ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </Tooltip>
               </InputAdornment>
             ),
           }}
@@ -119,11 +121,15 @@ export default function RegisterForm() {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton
-                  onClick={() => setShow((prev) => ({ ...prev, confirm: !prev.confirm }))}
-                >
-                  {!show.confirm ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
+                <Tooltip title="Show confirm password">
+                  <IconButton
+                    onClick={() =>
+                      setShow((prev) => ({ ...prev, confirm: !prev.confirm }))
+                    }
+                  >
+                    {!show.confirm ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </Tooltip>
               </InputAdornment>
             ),
           }}
@@ -140,11 +146,13 @@ export default function RegisterForm() {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton
-                  onClick={() => setShow((prev) => ({ ...prev, secret: !prev.secret }))}
-                >
-                  {!show.secret ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
+                <Tooltip title="Show user secret">
+                  <IconButton
+                    onClick={() => setShow((prev) => ({ ...prev, secret: !prev.secret }))}
+                  >
+                    {!show.secret ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </Tooltip>
               </InputAdornment>
             ),
           }}
