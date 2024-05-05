@@ -1,12 +1,12 @@
-import { useForm } from "react-hook-form";
-import { Button, IconButton, InputAdornment, Stack } from "@mui/material";
-import { FormInput } from "@/components/Form/FormInput";
-import useUserManagement from "@/hooks/useUserManagement";
 import { useEffect, useState } from "react";
-import { getUserToken } from "@/utils/token";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { emailPattern, PasswordPatten } from "@/constants";
+import { Button, IconButton, InputAdornment, Stack } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import useUserManagement from "@/hooks/useUserManagement";
+import { FormInput } from "@/components/Form/FormInput";
+import { getUserToken } from "@/utils/token";
+// import { emailPattern, passwordPatten } from "@/constants";
 
 type TInputFieldTypes = {
   username: string;
@@ -15,13 +15,19 @@ type TInputFieldTypes = {
   secret: string;
   confirmPassword?: string;
 };
+
 const margins = { ml: 0.5, mb: 0.7, color: "#242424" };
+
 export default function RegisterForm() {
   const navigate = useNavigate();
   const { createNewUser } = useUserManagement();
   const { control, handleSubmit } = useForm<TInputFieldTypes>();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showSecret, setShowSecret] = useState(false);
+  const [show, setShow] = useState({
+    password: false,
+    confirm: false,
+    secret: false,
+  });
+
   useEffect(() => {
     const userToken = getUserToken();
     if (userToken) {
@@ -42,8 +48,6 @@ export default function RegisterForm() {
           try {
             console.log(data);
           } catch (error) {
-            //setStateError(error)
-            //or || data.message
             console.log(error);
           }
         })
@@ -64,36 +68,61 @@ export default function RegisterForm() {
           variant="outlined"
           type="email"
           placeholder="Enter your email"
-          rules={{
-            pattern: {
-              value: emailPattern,
-              message: "Email is invalid",
-            },
-          }}
           mylabel="Email"
           labelprops={{ sx: margins }}
           required
+          // rules={{
+          //   pattern: {
+          //     value: emailPattern,
+          //     message: "Your message ...",
+          //   },
+          // }}
         />
 
         <FormInput
           {...{ control, name: "password" }}
           variant="outlined"
           placeholder="Enter your password"
-          type={showPassword ? "text" : "password"}
+          type={show.password ? "text" : "password"}
           mylabel="Password"
           labelprops={{ sx: margins }}
           required
-          rules={{
-            pattern: {
-              value: PasswordPatten,
-              message: "Password is invalid. Example: Shaxzod_2424",
-            },
-          }}
+          // rules={{
+          //   pattern: {
+          //     value: passwordPatten,
+          //     message: "Your message ...",
+          //   },
+          //}}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)}>
-                  {!showPassword ? <VisibilityOff /> : <Visibility />}
+                <IconButton
+                  onClick={() =>
+                    setShow((prev) => ({ ...prev, password: !prev.password }))
+                  }
+                >
+                  {!show.password ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        <FormInput
+          {...{ control, name: "confirmPassword" }}
+          type={show.confirm ? "text" : "password"}
+          variant="outlined"
+          placeholder="Enter your confirm password"
+          mylabel="Confirm password"
+          labelprops={{ sx: margins }}
+          required
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => setShow((prev) => ({ ...prev, confirm: !prev.confirm }))}
+                >
+                  {!show.confirm ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             ),
@@ -102,7 +131,7 @@ export default function RegisterForm() {
 
         <FormInput
           {...{ control, name: "secret" }}
-          type={showSecret ? "text" : "password"}
+          type={show.secret ? "text" : "password"}
           variant="outlined"
           placeholder="Enter your secret"
           mylabel="User secret"
@@ -111,23 +140,15 @@ export default function RegisterForm() {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton onClick={() => setShowSecret(!showSecret)}>
-                  {!showSecret ? <VisibilityOff /> : <Visibility />}
+                <IconButton
+                  onClick={() => setShow((prev) => ({ ...prev, secret: !prev.secret }))}
+                >
+                  {!show.secret ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             ),
           }}
         />
-
-        {/* <FormInput
-          {...{ control, name: "confirmPassword" }}
-          variant="outlined"
-          placeholder="Enter your confirm password"
-          mylabel="Confirm password"
-          labelprops={{ sx: margins }}
-          required
-        /> */}
-
         <Button type="submit" variant="contained" fullWidth>
           Submit
         </Button>
